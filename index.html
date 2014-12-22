@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <title>Introducing Google</title>
+        <style>
+        h1 {
+            font-size: 26px;
+            font-family: arial,sans-serif;
+            margin-top: 20px;
+            width: 90%;
+            margin-left: 5%;
+        }
+
+        #box {
+            width: 575px;
+            margin: 120px auto;
+            position: relative;
+        }
+        #box input {
+            border: none;
+            padding: 0;
+            margin: 0;
+            width: 300px;
+            font: 16px arial,sans-serif;
+            color: #000;
+            position: absolute;
+            z-index: 2;
+            top: 130px;
+            left: 13px;
+            outline: none;
+        }
+        #prevent-focus {
+            width: 575px;
+            height: 220px;
+            position: absolute;
+            z-index: 3;
+            top: 0;
+        }
+        </style>
+    </head>
+    <body>
+        <center><h1>Google Search, commonly referred to as Google Web Search or just Google, is a web search engine owned by Google Inc. It is the most-used search engine on the World Wide Web, handling more than three billion searches each day.</h1></center>
+        <div id="box">
+            <img src="google.jpg" width="575" alt="">
+            <input id="search" type="text" />
+            <div id="prevent-focus"></div>
+        </div>
+        <audio src="badumtss.mp3" id="badumtss" autostart="false"></audio>
+
+        <script>
+        window.onhashchange = search;
+        window.onload = search;
+        var intervalID;
+        function search() {
+            document.getElementById("search").value = "";
+            clearInterval(intervalID);
+            var query = window.location.hash.substr(1);
+            var speed = 300;
+            parts = query.split('/');
+            if (parts.length > 1) {
+                speed = parseInt(parts[0], 10);
+                query = parts[1];
+            }
+            var i = 0;
+            document.getElementById("search").focus();
+            intervalID = window.setInterval(function () {
+                if (i < query.length)
+                    document.getElementById("search").value += query[i++];
+                else {
+                    clearInterval(intervalID);
+                    document.getElementById('badumtss').play();
+                    setTimeout(function() {
+                         window.location = "https://www.google.com/#q="+query;
+                    }, 3000);
+                }
+            }, speed);
+        }
+        </script>
+    </body>
+</html>
